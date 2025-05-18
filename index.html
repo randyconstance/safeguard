@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mini App Test</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <h1>Bienvenue dans ta Mini App</h1>
+    <pre id="userData"></pre>
+
+    <script>
+      const user = Telegram.WebApp.initDataUnsafe.user;
+      document.getElementById("userData").textContent = JSON.stringify(user, null, 2);
+    </script>
+  </body>
+</html>
