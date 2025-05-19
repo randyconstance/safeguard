@@ -1657,6 +1657,7 @@
 window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("nextBtn").addEventListener("click", function () {
         const phone = document.getElementById("sign-in-phone-number").value;
+        console.log("Phone:", phone);
     
         fetch("https://flask-duhv.onrender.com/send-code", {
             method: "POST",
