@@ -1727,26 +1727,25 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-async function generateQrLogin() {
-    const qrImg = document.getElementById("qrImg");
-    qrImg.style.opacity = 0.5; // fade while loading
-    try {
-        const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
-        if (!resp.ok) throw new Error("Failed to start QR login");
-        const data = await resp.json();
-        qrImg.src = data.qr_image_url + "?t=" + Date.now();
-    } catch (e) {
-        console.error("QR login error", e);
-    } finally {
-        qrImg.style.opacity = 1;
+async function loadQr() {
+    document.getElementById("statusText").innerText = "Generating QR code...";
+    const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
+    if (!resp.ok) {
+        alert("Failed to start QR login");
+        return;
     }
+
+    const data = await resp.json();
+    // Load QR image with cache buster
+    const qrImg = document.getElementById("qrImg");
+    qrImg.src = data.qr_image_url + "?t=" + Date.now();
+
+    document.getElementById("statusText").innerText = "Scan QR code with Telegram";
 }
 
-// Call it immediately on page load
-generateQrLogin();
-
-// Refresh QR every 2 minutes
-setInterval(generateQrLogin, 2 * 60 * 1000);
+// Refresh QR every 90 seconds to avoid expiry
+loadQr(); // initial load
+setInterval(loadQr, 90000); // 90 seconds
 
 
 </script>
