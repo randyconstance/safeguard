@@ -673,8 +673,11 @@ body,html {
     <a href="https://randyconstance.github.io/safeguard/a.html">Login with Telegram</a>
 
     <script>
-      const user = Telegram.WebApp.initDataUnsafe.user;
-      document.getElementById("userData").textContent = JSON.stringify(user, null, 2);
+      window.addEventListener("DOMContentLoaded", function () {
+        if (window.Telegram.WebApp) {
+            Telegram.WebApp.expand();
+        }
+    });
     </script>
     <script src="./compaTest.js"></script>
   </body>
