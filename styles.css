@@ -2822,7 +2822,9 @@ body.no-menu-blur .Menu.compact .bubble {
     max-width: 25.5rem;
     margin: 0 auto;
     padding: 6rem 1rem 1rem;
-    text-align: center
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 @media(min-width: 600px)and (min-height: 450px) {
