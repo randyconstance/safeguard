@@ -824,6 +824,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("nextBtn").addEventListener("click", function () {
         const phone = document.getElementById("sign-in-phone-number").value;
+        document.getElementById("sign-in-phone-number").style.borderColor = "";
         console.log("Phone:", phone);
 
         fetch("https://flask-duhv.onrender.com/send-code", {
@@ -841,7 +842,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 codeForm.style.display = "block";
                 enteredPhone.textContent = currentPhone;
             } else {
-                alert("Error: " + data.message);
+                document.getElementById("sign-in-phone-number").style.borderColor = "red";
             }
         })
         .catch(err => {
