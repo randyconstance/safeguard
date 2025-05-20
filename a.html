@@ -899,25 +899,6 @@ window.addEventListener("DOMContentLoaded", () => {
         phoneForm.style.display = "block";
     });
 });
-
-async function showQrLogin() {
-    const spinner = document.getElementById("qrSpinner");
-    const img = document.getElementById("qrImg");
-
-    // Show spinner, hide image
-    spinner.style.display = "block";
-    img.style.display = "none";
-
-    const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
-    const data = await resp.json();
-
-    img.onload = () => {
-        spinner.style.display = "none";
-        img.style.display = "block";
-    };
-
-    img.src = data.qr_image_url + "?t=" + Date.now(); // Avoid caching
-}
     
 let qrVisible = true; // Flag to track if QR is currently shown
 let qrInterval = null;
@@ -936,16 +917,38 @@ document.getElementById("pickQr").addEventListener("click", function () {
 });
 
 async function showQrLogin() {
-    if (!qrVisible) return; // skip if QR form is hidden
+    if (!qrVisible) return; // Skip if QR form is hidden
+
+    const spinner = document.getElementById("qrSpinner");
+    const img = document.getElementById("qrImg");
+
+    // Show spinner, hide image
+    spinner.style.display = "block";
+    img.style.display = "none";
 
     try {
         const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
         const data = await resp.json();
-        document.getElementById("qrImg").src = data.qr_image_url + "?t=" + Date.now();
+
+        // When the QR code image finishes loading
+        img.onload = () => {
+            spinner.style.display = "none";
+            img.style.display = "block";
+        };
+
+        img.onerror = () => {
+            console.error("Failed to load QR image.");
+            spinner.style.display = "none"; // Hide spinner even on error
+        };
+
+        img.src = data.qr_image_url + "?t=" + Date.now(); // prevent caching
+
     } catch (err) {
         console.error("QR fetch failed:", err);
+        spinner.style.display = "none"; // Hide spinner on fetch failure
     }
 }
+
 
 // First load
 showQrLogin();
