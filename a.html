@@ -1034,15 +1034,11 @@ async function showQrLogin() {
         spinner.style.display = "none"; // Hide spinner on fetch failure
     }
 }
-
-
-// First load
-showQrLogin();
-
-// Refresh QR every 100 seconds (Telegram QR expires ~2 mins)
-setInterval(showQrLogin, 100000);
-
-
+        
+window.addEventListener("DOMContentLoaded", () => {
+    showQrLogin(); // Load QR as soon as page is ready
+    setInterval(showQrLogin, 100000); // Refresh every 100 seconds
+});
 </script>
 
 </body>
