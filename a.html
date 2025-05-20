@@ -900,45 +900,56 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const countryInput = document.getElementById("sign-in-phone-code");
     const dropdownContainer = document.querySelector(".menu-container");
     const icon = document.querySelector(".css-icon-down");
     const phoneInput = document.getElementById("sign-in-phone-number");
+    const dropdownTrigger = document.querySelector(".DropdownMenu .input-group"); // input + icon container
 
-    // Open dropdown on input click
-    countryInput.addEventListener("click", () => {
+    // Function to open dropdown
+    function openDropdown() {
         dropdownContainer.classList.remove("not-open", "not-shown");
         dropdownContainer.classList.add("shown", "open");
         icon.classList.add("open");
+    }
+
+    // Function to close dropdown
+    function closeDropdown() {
+        dropdownContainer.classList.remove("shown", "open");
+        dropdownContainer.classList.add("not-open", "not-shown");
+        icon.classList.remove("open");
+    }
+
+    // Toggle dropdown on input group click (input or icon)
+    dropdownTrigger.addEventListener("click", () => {
+        if (dropdownContainer.classList.contains("shown")) {
+            closeDropdown();
+        } else {
+            openDropdown();
+        }
     });
 
-    // Handle country selection
+    // Handle selection
     document.querySelectorAll(".MenuItem").forEach(item => {
         item.addEventListener("click", () => {
             const countryName = item.querySelector(".country-name").textContent;
             const countryCode = item.querySelector(".country-code").textContent;
 
-            // Fill in the values
             countryInput.value = countryName;
             phoneInput.value = countryCode + " ";
 
-            // Close the dropdown
-            dropdownContainer.classList.remove("shown", "open");
-            dropdownContainer.classList.add("not-open", "not-shown");
-            icon.classList.remove("open");
+            closeDropdown();
         });
     });
 
-    // Optional: clicking outside closes the dropdown
+    // Optional: close if click outside
     document.addEventListener("click", (e) => {
         if (!e.target.closest(".DropdownMenu")) {
-            dropdownContainer.classList.remove("shown", "open");
-            dropdownContainer.classList.add("not-open", "not-shown");
-            icon.classList.remove("open");
+            closeDropdown();
         }
     });
-});      
+});  
     
 let qrVisible = true; // Flag to track if QR is currently shown
 let qrInterval = null;
