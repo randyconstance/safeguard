@@ -66,7 +66,14 @@
                         </form>
                     </div>
                     <div class="auth-form" id="qrForm">
-                        <img width="276px" height="276px" style="clip-path:inset(2px 0 0 2px)" id="qrImg" alt="Scan QR code with Telegram app" />
+                        <div id="qrWrapper" style="position: relative; display: inline-block;">
+                            <img width="276px" height="276px" style="clip-path:inset(2px 0 0 2px)" id="qrImg" alt="Scan QR code with Telegram app" />
+                            <div id="qrSpinner" class="spinner" style="
+                                position: absolute;
+                                top: 50%; left: 50%;
+                                transform: translate(-50%, -50%);
+                            "></div>
+                        </div>
                         <h1>Verify by QR Code</h1>
                         <ol>
                             <li><span>Open Telegram on your phone</span></li>
