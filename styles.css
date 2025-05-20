@@ -2874,8 +2874,8 @@ body.is-electron .auth-form #logo,body.is-electron .auth-form .AvatarEditable la
 
 @media(min-width: 600px) {
     .auth-form h1 {
-        font-size:2rem;
-        line-height: 1.5
+        font-size:2rem !important;
+        line-height: 1.5 !important;
     }
 }
 
@@ -2926,7 +2926,7 @@ body.is-electron.is-macos #auth-registration-form .input-group,body.is-electron.
     margin-top: 1rem
 }
 
-#auth-code-form h1,#auth-password-form h1 {
+#auth-code-form h1,#auth-password-form h1, #codeForm h1 {
     display: flex;
     align-items: center;
     justify-content: center
