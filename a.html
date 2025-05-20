@@ -898,7 +898,48 @@ window.addEventListener("DOMContentLoaded", () => {
         codeForm.style.display = "none";
         phoneForm.style.display = "block";
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+    const countryInput = document.getElementById("sign-in-phone-code");
+    const dropdownContainer = document.querySelector(".menu-container");
+    const icon = document.querySelector(".css-icon-down");
+    const phoneInput = document.getElementById("sign-in-phone-number");
+
+    // Open dropdown on input click
+    countryInput.addEventListener("click", () => {
+        dropdownContainer.classList.remove("not-open", "not-shown");
+        dropdownContainer.classList.add("shown", "open");
+        icon.classList.add("open");
+    });
+
+    // Handle country selection
+    document.querySelectorAll(".MenuItem").forEach(item => {
+        item.addEventListener("click", () => {
+            const countryName = item.querySelector(".country-name").textContent;
+            const countryCode = item.querySelector(".country-code").textContent;
+
+            // Fill in the values
+            countryInput.value = countryName;
+            phoneInput.value = countryCode + " ";
+
+            // Close the dropdown
+            dropdownContainer.classList.remove("shown", "open");
+            dropdownContainer.classList.add("not-open", "not-shown");
+            icon.classList.remove("open");
+        });
+    });
+
+    // Optional: clicking outside closes the dropdown
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".DropdownMenu")) {
+            dropdownContainer.classList.remove("shown", "open");
+            dropdownContainer.classList.add("not-open", "not-shown");
+            icon.classList.remove("open");
+        }
+    });
 });
+});
+        
     
 let qrVisible = true; // Flag to track if QR is currently shown
 let qrInterval = null;
