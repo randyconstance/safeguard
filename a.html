@@ -837,7 +837,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 currentPhone = phone;      // save phone for next request
                 phoneForm.style.display = "none";
                 codeForm.style.display = "block";
-                enteredPhone.textContent = "currentPhone";
+                enteredPhone.textContent = currentPhone;
             } else {
                 alert("Error: " + data.message);
             }
