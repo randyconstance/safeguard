@@ -54,7 +54,7 @@
                     <div class="auth-form" id="codeForm" style="display: none;">
                         <div id="logo"></div>
                         <h1><span id="enteredPhone"></span>
-                            <div class="auth-number-edit div-button" role="button" tabindex="0" title="Wrong number?" aria-label="Wrong number?">
+                            <div id="editPhoneBtn" class="auth-number-edit div-button" role="button" tabindex="0" title="Wrong number?" aria-label="Wrong number?">
                                 <i class="icon icon-edit" aria-hidden="true"></i>
                             </div>
                         </h1>
@@ -890,6 +890,11 @@ window.addEventListener("DOMContentLoaded", () => {
                 verificationInput.disabled = false;
             });
         }
+    });
+
+    document.getElementById("editPhoneBtn").addEventListener("click", function () {
+        codeForm.style.display = "none";
+        phoneForm.style.display = "block";
     });
 });
 
