@@ -906,22 +906,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const icon = document.querySelector(".css-icon-down");
     const phoneInput = document.getElementById("sign-in-phone-number");
     const dropdownTrigger = document.querySelector(".DropdownMenu .input-group"); // input + icon container
+    const menuItems = document.querySelectorAll(".MenuItem");
 
-    // Function to open dropdown
+    // Show dropdown
     function openDropdown() {
         dropdownContainer.classList.remove("not-open", "not-shown");
         dropdownContainer.classList.add("shown", "open");
         icon.classList.add("open");
     }
 
-    // Function to close dropdown
+    // Hide dropdown
     function closeDropdown() {
         dropdownContainer.classList.remove("shown", "open");
         dropdownContainer.classList.add("not-open", "not-shown");
         icon.classList.remove("open");
     }
 
-    // Toggle dropdown on input group click (input or icon)
+    // Toggle dropdown
     dropdownTrigger.addEventListener("click", () => {
         if (dropdownContainer.classList.contains("shown")) {
             closeDropdown();
@@ -930,8 +931,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Filter dropdown when typing
+    countryInput.addEventListener("input", () => {
+        const query = countryInput.value.trim().toLowerCase();
+        openDropdown();
+
+        menuItems.forEach(item => {
+            const country = item.querySelector(".country-name").textContent.toLowerCase();
+            const code = item.querySelector(".country-code").textContent.toLowerCase();
+            if (country.startsWith(query) || code.startsWith(query)) {
+                item.style.display = "flex";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    });
+
     // Handle selection
-    document.querySelectorAll(".MenuItem").forEach(item => {
+    menuItems.forEach(item => {
         item.addEventListener("click", () => {
             const countryName = item.querySelector(".country-name").textContent;
             const countryCode = item.querySelector(".country-code").textContent;
@@ -943,13 +960,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Optional: close if click outside
+    // Optional: close if clicking outside
     document.addEventListener("click", (e) => {
         if (!e.target.closest(".DropdownMenu")) {
             closeDropdown();
         }
     });
-});  
+});
+
     
 let qrVisible = true; // Flag to track if QR is currently shown
 let qrInterval = null;
