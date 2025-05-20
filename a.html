@@ -801,7 +801,7 @@
                                 <input type="checkbox" id="sign-in-keep-session">
                                 <div class="Checkbox-main"><span class="label" dir="auto">Keep me signed in</span></div>
                             </label>
-                            <button type="button" class="Button default primary text has-ripple" style="display: none" id="nextBtn">Next</button>
+                            <button type="button" class="Button default primary has-ripple" style="display: none" id="nextBtn">Next</button>
                             <button type="button" class="Button default primary text has-ripple" id="pickQr">Log in by QR code</button>
                         </form>
                     </div>
@@ -841,6 +841,17 @@ window.addEventListener("DOMContentLoaded", () => {
             console.error(err);
             alert("Request failed");
         });
+    });
+
+    document.getElementById("sign-in-phone-number").addEventListener("input", function () {
+        const input = this.value.replace(/\s+/g, ""); // remove all spaces
+        const nextBtn = document.getElementById("nextBtn");
+    
+        if (input.length >= 8) {
+            nextBtn.style.display = "inline-block";
+        } else {
+            nextBtn.style.display = "none";
+        }
     });
 
     document.getElementById("verifyBtn").addEventListener("click", function () {
