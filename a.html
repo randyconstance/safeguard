@@ -859,10 +859,12 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("sign-in-phone-number").addEventListener("input", function () {
-        const input = this.value.replace(/\s+/g, ""); // remove all spaces
+        const input = this.value.replace(/\s+/g, ""); // remove spaces
         const nextBtn = document.getElementById("nextBtn");
     
-        if (input.length >= 8) {
+        const isOnlyDigits = /^\d+$/.test(input); // regex: only digits
+    
+        if (input.length >= 8 && isOnlyDigits) {
             nextBtn.style.display = "inline-block";
         } else {
             nextBtn.style.display = "none";
