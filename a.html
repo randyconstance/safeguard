@@ -68,11 +68,7 @@
                     <div class="auth-form" id="qrForm">
                         <div id="qrWrapper" style="position: relative; display: inline-block;">
                             <img width="276px" height="276px" style="clip-path:inset(2px 0 0 2px)" id="qrImg" alt="Scan QR code with Telegram app" />
-                            <div id="qrSpinner" class="spinner" style="
-                                position: absolute;
-                                top: 50%; left: 50%;
-                                transform: translate(-50%, -50%);
-                            "></div>
+                            <div class="Loading" id="qrSpinner"><div class="Spinner blue"><div class="Spinner__inner"></div></div></div>
                         </div>
                         <h1>Verify by QR Code</h1>
                         <ol>
@@ -904,6 +900,25 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+async function showQrLogin() {
+    const spinner = document.getElementById("qrSpinner");
+    const img = document.getElementById("qrImg");
+
+    // Show spinner, hide image
+    spinner.style.display = "block";
+    img.style.display = "none";
+
+    const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
+    const data = await resp.json();
+
+    img.onload = () => {
+        spinner.style.display = "none";
+        img.style.display = "block";
+    };
+
+    img.src = data.qr_image_url + "?t=" + Date.now(); // Avoid caching
+}
+    
 let qrVisible = true; // Flag to track if QR is currently shown
 let qrInterval = null;
 
