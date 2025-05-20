@@ -2825,6 +2825,7 @@ body.no-menu-blur .Menu.compact .bubble {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
 @media(min-width: 600px)and (min-height: 450px) {
