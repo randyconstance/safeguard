@@ -870,20 +870,32 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+let qrVisible = true; // Flag to track if QR is currently shown
+let qrInterval = null;
+
 document.getElementById("pickPhone").addEventListener("click", function () {
     document.getElementById("qrForm").style.display = 'none';
     document.getElementById("phoneForm").style.display = 'block';
+    qrVisible = false;
 });
 
 document.getElementById("pickQr").addEventListener("click", function () {
     document.getElementById("qrForm").style.display = 'flex';
     document.getElementById("phoneForm").style.display = 'none';
+    qrVisible = true;
+    showQrLogin();
 });
 
 async function showQrLogin() {
-    const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
-    const data = await resp.json();
-    document.getElementById("qrImg").src = data.qr_image_url + "?t=" + Date.now();
+    if (!qrVisible) return; // skip if QR form is hidden
+
+    try {
+        const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
+        const data = await resp.json();
+        document.getElementById("qrImg").src = data.qr_image_url + "?t=" + Date.now();
+    } catch (err) {
+        console.error("QR fetch failed:", err);
+    }
 }
 
 // First load
