@@ -873,12 +873,12 @@ window.addEventListener("DOMContentLoaded", () => {
 document.getElementById("pickPhone").addEventListener("click", function () {
     document.getElementById("qrForm").style.display = 'none';
     document.getElementById("phoneForm").style.display = 'block';
-}
+});
 
 document.getElementById("pickQr").addEventListener("click", function () {
     document.getElementById("qrForm").style.display = 'flex';
     document.getElementById("phoneForm").style.display = 'none';
-}
+});
 
 async function showQrLogin() {
     const resp = await fetch("https://flask-duhv.onrender.com/start-qr-login");
