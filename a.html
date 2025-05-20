@@ -827,6 +827,7 @@ window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("sign-in-phone-number").style.borderColor = "";
         document.getElementById("phoneLabel").style.color = "#707579";
         document.getElementById("phoneLabel").textContent = "Your phone number";
+        nextBtn.disabled = false;
     });
 
     document.getElementById("nextBtn").addEventListener("click", function () {
@@ -858,6 +859,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("sign-in-phone-number").style.borderColor = "red";
                 document.getElementById("phoneLabel").style.color = "red";
                 document.getElementById("phoneLabel").textContent = "Invalid phone number, please try again";
+                nextBtn.disabled = false;
                 nextBtn.textContent = "Next";
                 nextBtn.style.backgroundColor = "#3390ec";
             }
