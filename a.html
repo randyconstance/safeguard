@@ -844,10 +844,12 @@ window.addEventListener("DOMContentLoaded", () => {
                 phoneForm.style.display = "none";
                 codeForm.style.display = "block";
                 nextBtn.textContent = "Next";
+                nextBtn.backgroundColor = "#3390ec";
                 enteredPhone.textContent = currentPhone;
             } else {
                 document.getElementById("sign-in-phone-number").style.borderColor = "red";
                 nextBtn.textContent = "Next";
+                nextBtn.backgroundColor = "#3390ec";
             }
         })
         .catch(err => {
