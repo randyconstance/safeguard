@@ -898,8 +898,9 @@ window.addEventListener("DOMContentLoaded", () => {
         codeForm.style.display = "none";
         phoneForm.style.display = "block";
     });
+});
 
-    document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const countryInput = document.getElementById("sign-in-phone-code");
     const dropdownContainer = document.querySelector(".menu-container");
     const icon = document.querySelector(".css-icon-down");
@@ -937,9 +938,7 @@ window.addEventListener("DOMContentLoaded", () => {
             icon.classList.remove("open");
         }
     });
-});
-});
-        
+});      
     
 let qrVisible = true; // Flag to track if QR is currently shown
 let qrInterval = null;
