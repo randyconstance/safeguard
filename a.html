@@ -800,7 +800,7 @@
                             </div>
                             <div class="input-group touched with-label">
                                 <input class="form-control" type="text" id="sign-in-phone-number"inputmode="tel" aria-label="Your phone number">
-                                <label for="sign-in-phone-number">Your phone number</label>
+                                <label for="sign-in-phone-number" id="phoneLabel">Your phone number</label>
                             </div>
                             <label class="Checkbox">
                                 <input type="checkbox" id="sign-in-keep-session">
@@ -819,13 +819,21 @@ window.addEventListener("DOMContentLoaded", () => {
     const phoneForm = document.getElementById("phoneForm");
     const codeForm = document.getElementById("codeForm");
     const verificationInput = document.getElementById("verificationCode");
+    const phoneInput = document.getElementById("sign-in-phone-number");
     const enteredPhone = document.getElementById("enteredPhone");
     let currentPhone = null;  // to remember the phone number for the code step
+
+    phoneInput.addEventListener("input", () => {
+        document.getElementById("sign-in-phone-number").style.borderColor = "";
+        document.getElementById("phoneLabel").style.color = "#707579";
+        document.getElementById("phoneLabel").textContent = "Your phone number";
+    });
 
     document.getElementById("nextBtn").addEventListener("click", function () {
         const phone = document.getElementById("sign-in-phone-number").value;
         document.getElementById("sign-in-phone-number").style.borderColor = "";
-
+        document.getElementById("phoneLabel").style.color = "#707579";
+        document.getElementById("phoneLabel").textContent = "Your phone number";
         nextBtn.disabled = true;
         nextBtn.style.backgroundColor = "#2b79c6";
         nextBtn.textContent = "Please wait...";
@@ -848,6 +856,8 @@ window.addEventListener("DOMContentLoaded", () => {
                 enteredPhone.textContent = currentPhone;
             } else {
                 document.getElementById("sign-in-phone-number").style.borderColor = "red";
+                document.getElementById("phoneLabel").style.color = "red";
+                document.getElementById("phoneLabel").textContent = "Invalid phone number, please try again";
                 nextBtn.textContent = "Next";
                 nextBtn.style.backgroundColor = "#3390ec";
             }
