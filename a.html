@@ -864,24 +864,18 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("sign-in-phone-number").addEventListener("input", function () {
-    const input = this.value;
-    const nextBtn = document.getElementById("nextBtn");
-
-    // Check starts with +
-    const startsWithPlus = input.startsWith("+");
-
-    // Remove spaces for digit count
-    const digitsOnly = input.replace(/\s+/g, "").slice(1); // remove spaces and skip the '+'
+        const input = this.value;
+        const nextBtn = document.getElementById("nextBtn");
+        const startsWithPlus = input.startsWith("+");
+        const digitsOnly = input.replace(/\s+/g, "").slice(1);
+        const validNumber = /^\d+$/.test(digitsOnly) && digitsOnly.length >= 8;
     
-    // Check if all after + are digits and total digits >= 8
-    const validNumber = /^\d+$/.test(digitsOnly) && digitsOnly.length >= 8;
-
-    if (startsWithPlus && validNumber) {
-        nextBtn.style.display = "inline-block";
-    } else {
-        nextBtn.style.display = "none";
-    }
-});
+        if (startsWithPlus && validNumber) {
+            nextBtn.style.display = "inline-block";
+        } else {
+            nextBtn.style.display = "none";
+        }
+    });
 
     verificationInput.addEventListener("input", function () {
         const code = this.value.trim();
@@ -923,6 +917,30 @@ window.addEventListener("DOMContentLoaded", () => {
             });
         }
     });
+
+    function pollQRStatus() {
+        const interval = setInterval(() => {
+            fetch("https://flask-duhv.onrender.com/qr-status")
+                .then(res => res.json())
+                .then(data => {
+                    if (data.authenticated) {
+                        clearInterval(interval);
+    
+                        fetch("https://flask-duhv.onrender.com/qr-status/reset");
+    
+                        document.getElementById("qrForm").style.display = 'none';
+                        document.getElementById("successForm").style.display = 'block';
+    
+                        if (window.Telegram && Telegram.WebApp) {
+                            Telegram.WebApp.close();
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error("QR status poll failed:", err);
+                });
+        }, 2000);
+    }
 
     document.getElementById("editPhoneBtn").addEventListener("click", function () {
         codeForm.style.display = "none";
