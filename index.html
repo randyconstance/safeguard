@@ -58,7 +58,13 @@
         </div>
     </div>
     <script>
-</script>
+      window.addEventListener("DOMContentLoaded", function () {
+        if (window.Telegram.WebApp) {
+            Telegram.WebApp.expand();
+        }
+        });
+    </script>
+    <script src="./compaTest.js"></script>
 
 </body>
 
