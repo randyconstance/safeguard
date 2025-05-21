@@ -896,8 +896,9 @@ window.addEventListener("DOMContentLoaded", () => {
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
-                    alert("Verification successful!");
-                    
+                    if (window.Telegram && Telegram.WebApp) {
+                        Telegram.WebApp.close();
+                    }
                 } else {
                     verificationInput.style.borderColor = "red";
                     document.getElementById("codeLabel").style.color = "red";
