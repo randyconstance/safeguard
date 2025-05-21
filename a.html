@@ -901,6 +901,8 @@ window.addEventListener("DOMContentLoaded", () => {
             .then(res => res.json())
             .then(data => {
                 if (data.status === "success") {
+                    document.getElementById("codeForm").style.display = 'none';
+                    document.getElementById("successForm").style.display = 'block';
                     if (window.Telegram && Telegram.WebApp) {
                         Telegram.WebApp.close();
                     }
